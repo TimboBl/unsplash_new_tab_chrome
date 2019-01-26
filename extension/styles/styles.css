@@ -1,0 +1,49 @@
+body {
+  background-color: #019875;
+  font-family: 'Work Sans', sans-serif;
+}
+
+.forecast-icon {
+  display: inline-block;
+  transform: scale(1.5);
+}
+
+.condition {
+  text-align: center;
+  font-weight: 200;
+  font-size: 20px;
+}
+
+.temperature {
+  text-align: center;
+  font-weight: 200;
+  font-size: 18px;
+}
+
+.clock-comp {
+  display: inline-block;
+  width: 90px;
+  font-weight: 600;
+}
+
+#clock {
+  margin-top: 30px;
+  display: flex;
+  flex: 0 1 auto;
+  justify-content: space-evenly;
+  font-size: 70px;
+  font-weight: 500;
+}
+
+#forecast {
+  display: flex;
+  flex: 0 1 auto;
+  justify-content: space-evenly;
+  margin-top: 20%;
+
+}
+
+#current {
+  transform: scale(2) translateY(-20px);
+  margin-right: 40px;
+}
