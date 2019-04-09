@@ -103,3 +103,5 @@ backend/.mypy_cache/
 backend/.dmypy.json
 backend/dmypy.json
 backend/.pyre/
+
+.idea/
