@@ -1,0 +1,28 @@
+{
+  "name": "unsplash-chrome-extension-backend",
+  "version": "1.0.0",
+  "description": "A backend that proxies API calls ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CkFreak/unsplash_new_tab_chrome.git"
+  },
+  "keywords": [
+    "expressjs",
+    "js",
+    "unsplash"
+  ],
+  "author": "Timbo Blaesche",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/CkFreak/unsplash_new_tab_chrome/issues"
+  },
+  "homepage": "https://github.com/CkFreak/unsplash_new_tab_chrome#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "express": "^4.16.4"
+  }
+}
