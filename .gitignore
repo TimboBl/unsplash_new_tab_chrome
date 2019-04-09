@@ -105,3 +105,5 @@ backend/dmypy.json
 backend/.pyre/
 
 .idea/
+
+backend/node_modules
