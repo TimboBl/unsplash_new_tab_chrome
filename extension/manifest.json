@@ -12,6 +12,6 @@
 
   "author": "Timbo Blaesche",
   "background": {
-    "persistens": false
+    "persistent": false
   }
 }
