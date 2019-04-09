@@ -107,3 +107,4 @@ backend/.pyre/
 .idea/
 
 backend/node_modules
+backend/dist
