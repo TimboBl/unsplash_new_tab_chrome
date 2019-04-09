@@ -25,11 +25,17 @@
   "homepage": "https://github.com/CkFreak/unsplash_new_tab_chrome#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "moment": "^2.24.0",
+    "mongoose": "^5.5.0",
     "typescript": "^3.4.2"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
-    "@types/express": "^4.16.1"
+    "@types/body-parser": "^1.17.0",
+    "@types/express": "^4.16.1",
+    "@types/moment": "^2.13.0",
+    "@types/mongoose": "^5.3.25"
   }
 }

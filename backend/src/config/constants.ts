@@ -5,3 +5,5 @@ export const OPEN_WEATHER_MAP_FORECAST_PATH = "/forecast/daily";
 export const OPEN_WEATHER_MAP_CURRENT_PATH = "/weather";
 
 export const OPEN_WEATHER_MAP_TOKEN = process.env.OWM_TOKEN;
+
+export const MONGO_CONNECTION_STRING = process.env.UNSPLASH_MONGO;
