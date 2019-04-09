@@ -7,4 +7,5 @@ export interface MongoServiceT {
 	getImageById(id: string): Promise<any>,
 	storeCityId(id: string, name: string, country: string): Promise<any>;
 	getCityByNameAndCountry(name: string, country: string): Promise<any>;
+	getRandomImage(): Promise<any>;
 }

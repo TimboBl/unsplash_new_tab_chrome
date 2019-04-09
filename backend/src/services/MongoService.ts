@@ -37,6 +37,10 @@ export const MongoService = (() => {
 		return UnsplashImage.findOne({id}).exec();
 	};
 
+	const getRandomImage = () => {
+		return UnsplashImage.aggregate([{"$sample": {size: 1}}]).exec();
+	};
+
 	const mongoService = {
 		storeCityId,
 		storeCurrentWeather,
@@ -46,6 +50,7 @@ export const MongoService = (() => {
 		getCurrentWeatherById,
 		getForecastById,
 		getImageById,
+		getRandomImage,
 	};
 
 	const init = (connectionString: string) => {

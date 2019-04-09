@@ -4,12 +4,12 @@ import axios from "axios";
 import {
 	OPEN_WEATHER_MAP_CURRENT_PATH,
 	OPEN_WEATHER_MAP_FORECAST_PATH,
-	OPEN_WEATHER_MAP_TOKEN,
 	OPEN_WEATHERMAP_API_PATH
 } from "../config/constants";
 import { WeatherHandlerT } from "../types/handlers/WeatherHandler";
 import { MongoServiceT } from "../types/services/MongoService";
 import { CityIdT } from "../types/models/CityId";
+import { DATE_FORMAT, OPEN_WEATHER_MAP_TOKEN } from "../config/config";
 
 export const WeatherHandler = (mongoService: MongoServiceT): WeatherHandlerT => {
 	const getCurrentWeather = (req: Request, res: Response) => {
@@ -40,6 +40,7 @@ export const WeatherHandler = (mongoService: MongoServiceT): WeatherHandlerT => 
 		}).then((d: any) => {
 			data = d;
 			if (!fromDB) {
+				data.date = moment().format(DATE_FORMAT);
 				console.log("Storing Current Weather in Database");
 				return mongoService.storeCurrentWeather(data.data.id, data.data);
 			} else if (data.data.date && data.data.date.isSameOrAfter(moment())) {
@@ -50,9 +51,11 @@ export const WeatherHandler = (mongoService: MongoServiceT): WeatherHandlerT => 
 		}).then((d: any) => {
 			if (d && d.data) {
 				data = d;
+				data.date = moment().format(DATE_FORMAT);
 				console.log("Storing Current Weather in Database");
 				return mongoService.storeCurrentWeather(data.id, data.data);
 			} else {
+				data.date = moment().format(DATE_FORMAT);
 				return mongoService.storeCurrentWeather(data.data.id, data.data);
 			}
 		}).then(() => {
@@ -100,6 +103,7 @@ export const WeatherHandler = (mongoService: MongoServiceT): WeatherHandlerT => 
 		}).then((d: any) => {
 			data = d;
 			if (!fromDB) {
+				data.date = moment().format(DATE_FORMAT);
 				console.log("Storing Forecast in Database");
 				return mongoService.storeForecast(data.data.id, data.data);
 			} else if (fromDB && data.data.date && data.data.date.isSameOrAfter(moment())) {
@@ -110,6 +114,7 @@ export const WeatherHandler = (mongoService: MongoServiceT): WeatherHandlerT => 
 		}).then((d: any) => {
 			if (d && d.data) {
 				data = d;
+				data.date = moment().format(DATE_FORMAT);
 				console.log("Storing Current Weather in Database");
 				return mongoService.storeForecast(data.data.city.id, data.data);
 			}
