@@ -38,7 +38,10 @@ export const MongoService = (() => {
 	};
 
 	const getRandomImage = () => {
-		return UnsplashImage.aggregate([{"$sample": {size: 1}}]).exec();
+		return UnsplashImage.count({}).exec().then((count) => {
+			const r = Math.floor(Math.random() * count);
+			return UnsplashImage.find({}).limit(1).skip(r).exec();
+		});
 	};
 
 	const mongoService = {
