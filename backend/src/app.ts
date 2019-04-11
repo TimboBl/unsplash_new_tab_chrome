@@ -4,6 +4,7 @@ import { WeatherHandler } from "./handlers/WeatherHandler";
 import { UnsplashRouter } from "./routers/UnsplashRouter";
 import { UnsplashHandler } from "./handlers/UnsplashHandler";
 import * as bodyParser from "body-parser";
+import * as cors from "cors";
 import { PORT } from "./config/config";
 import { MongoServiceT } from "./types/services/MongoService";
 
@@ -12,6 +13,7 @@ export const App = (mongoService: MongoServiceT) => {
 	const weatherHandler = WeatherHandler(mongoService);
 	const unsplashHandler = UnsplashHandler(mongoService);
 
+	app.use(cors());
 	app.use(bodyParser.json());
 	app.use(express.urlencoded({extended: true}));
 
