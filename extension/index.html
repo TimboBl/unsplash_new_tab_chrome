@@ -11,64 +11,84 @@
 	<script src="scripts/images.js"></script>
 	<script src="scripts/weather.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Work+Sans:200,300,600" rel="stylesheet">
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-<div>
-	<div id="clock">
-		<div class="clock-comp" id="hours">
+<div id="background">
+	<div id="content">
+		<div>
+			<div id="clock">
+				<div class="clock-comp" id="hours">
+				</div>
+				<div class="clock-comp" id="minutes">
+				</div>
+				<div class="clock-comp" id="seconds">
+				</div>
+			</div>
 		</div>
-		<div class="clock-comp" id="minutes">
+		<div id="date">
 		</div>
-		<div class="clock-comp" id="seconds">
-		</div>
-	</div>
-</div>
-<div id="date">
-</div>
-<div id="forecast">
-	<div class="forecast-icon" id="current">
-		<img src="images/sun.svg" alt="weather icon">
-		<div class="condition">
-			Sunny
-		</div>
-		<div class="temperature">
-			23°
-		</div>
-	</div>
-	<div class="forecast-icon" id="0">
-		<img src="images/98px/cloud.png" alt="weather icon">
-		<div class="condition">
-			Sunny
-		</div>
-		<div class="temperature">
-			23°
-		</div>
-	</div>
-	<div class="forecast-icon" id="1">
-		<img src="images/98px/rain.png" alt="weather icon">
-		<div class="condition">
-			Sunny
-		</div>
-		<div class="temperature">
-			23°
-		</div>
-	</div>
-	<div class="forecast-icon" id="2">
-		<img src="images/98px/heavy_thunder.png" alt="weather icon">
-		<div class="condition">
-			Sunny
-		</div>
-		<div class="temperature">
-			23°
-		</div>
-	</div>
-	<div class="forecast-icon" id="3">
-		<img src="images/98px/snow.png" alt="weather icon">
-		<div class="condition">
-			Sunny
-		</div>
-		<div class="temperature">
-			23°
+		<div id="forecast">
+			<div class="forecast-icon" id="current">
+				<img src="images/sun.svg" alt="weather icon">
+				<div class="weekday">
+					Mo
+				</div>
+				<div class="condition">
+					Sunny
+				</div>
+				<div class="temperature">
+					&spades;
+				</div>
+			</div>
+			<div class="forecast-icon" id="0">
+				<img src="images/98px/cloud.png" alt="weather icon">
+				<div class="weekday">
+					Tu
+				</div>
+				<div class="condition">
+					Sunny
+				</div>
+				<div class="temperature">
+					&spades;
+				</div>
+			</div>
+			<div class="forecast-icon" id="1">
+				<img src="images/98px/rain.png" alt="weather icon">
+				<div class="weekday">
+					We
+				</div>
+				<div class="condition">
+					Sunny
+				</div>
+				<div class="temperature">
+					&spades;
+				</div>
+			</div>
+			<div class="forecast-icon" id="2">
+				<img src="images/98px/heavy_thunder.png" alt="weather icon">
+				<div class="weekday">
+					Th
+				</div>
+				<div class="condition">
+					Sunny
+				</div>
+				<div class="temperature">
+					&spades;
+				</div>
+			</div>
+			<div class="forecast-icon" id="3">
+				<img src="images/98px/snow.png" alt="weather icon">
+				<div class="weekday">
+					Fr
+				</div>
+				<div class="condition">
+					Sunny
+				</div>
+				<div class="temperature">
+					&spades;
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
