@@ -3,15 +3,11 @@
   "name": "Unsplash Weather",
   "version": "1.0.0",
 
-  "default_locale": "de",
   "description": "A new Page Extension displaying a beautiful picture and the time and weather",
 
   "chrome_url_overrides": {
-    "pageToOverride": "newtab"
+    "newtab": "index.html"
   },
 
-  "author": "Timbo Blaesche",
-  "background": {
-    "persistent": false
-  }
+  "author": "Timbo Blaesche"
 }
