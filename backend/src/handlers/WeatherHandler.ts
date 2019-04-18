@@ -9,42 +9,45 @@ import {
 import { WeatherHandlerT } from "../types/handlers/WeatherHandler";
 import { MongoServiceT } from "../types/services/MongoService";
 import { CityIdT } from "../types/models/CityId";
-import { DATE_FORMAT, OPEN_WEATHER_MAP_TOKEN } from "../config/config";
+import { CURRENT_WEATHER_DATE_FORMT, DATE_FORMAT, OPEN_WEATHER_MAP_TOKEN } from "../config/config";
 
 export const WeatherHandler = (mongoService: MongoServiceT): WeatherHandlerT => {
 	const getCurrentWeather = (req: Request, res: Response) => {
-		console.log("Request for current Weather");
+		console.debug("Request for current Weather");
 		let {city, country} = req.query;
 		let fromDB = false;
 		let data: any = {};
+		const date: string = moment().format(CURRENT_WEATHER_DATE_FORMT);
 		if (!(city && country)) {
 			city = "Hamburg";
 			country = "de";
 		}
 		mongoService.getCityByNameAndCountry(city, country)
 			.then((result: CityIdT) => {
-				if (result) {
-					console.log("Getting Current Weather from Database");
+				const weatherTime = moment(result.currentWeatherTime, CURRENT_WEATHER_DATE_FORMT);
+				const oneHourBefore = moment().subtract(1, "hours");
+				if (result && weatherTime.isBetween(oneHourBefore, moment())) {
+					console.debug("Getting Current Weather from Database");
 					fromDB = true;
 					return mongoService.getCurrentWeatherById(result.id);
 				} else {
-					console.log("Requesting from API");
+					console.debug("Requesting from API");
 					return getCurrentWeatherCall(city, country);
 				}
 			}).then((d: any) => {
 			if (!d) {
-				console.log("Tried getting from database but there was nothing there");
+				console.debug("Tried getting from database but there was nothing there");
 				return getCurrentWeatherCall(city, country);
 			}
 			return Promise.resolve(d);
 		}).then((d: any) => {
 			data = d;
 			if (!fromDB) {
-				data.date = moment().format(DATE_FORMAT);
-				console.log("Storing Current Weather in Database");
-				return mongoService.storeCurrentWeather(data.data.id, data.data);
+				data.date = date;
+				console.debug("Storing Current Weather in Database");
+				return mongoService.storeCurrentWeather(data.data.id, data.data, date);
 			} else if (data.data.date && data.data.date.isSameOrAfter(moment())) {
-				console.log("Data is too old, requesting new one");
+				console.debug("Data is too old, requesting new one");
 				return getCurrentWeatherCall(city, country);
 			}
 			return Promise.resolve();
@@ -52,15 +55,15 @@ export const WeatherHandler = (mongoService: MongoServiceT): WeatherHandlerT => 
 			if (d && d.data) {
 				data = d;
 				data.date = moment().format(DATE_FORMAT);
-				console.log("Storing Current Weather in Database");
-				return mongoService.storeCurrentWeather(data.id, data.data);
-			} else {
+				console.debug("Storing Current Weather in Database");
+				return mongoService.storeCurrentWeather(data.id, data.data, date);
+			} else if (!fromDB) {
 				data.date = moment().format(DATE_FORMAT);
-				return mongoService.storeCurrentWeather(data.data.id, data.data);
+				return mongoService.storeCurrentWeather(data.data.id, data.data, date);
 			}
 		}).then(() => {
 			if (!fromDB) {
-				console.log("Storing city and Id in Database");
+				console.debug("Storing city and Id in Database");
 				return mongoService.storeCityId(data.data.id, data.data.name, country);
 			}
 			return Promise.resolve();
@@ -76,38 +79,39 @@ export const WeatherHandler = (mongoService: MongoServiceT): WeatherHandlerT => 
 	};
 
 	const getForecast = (req: Request, res: Response) => {
-		console.log("Request for forecast");
+		console.debug("Request for forecast");
 		let {city, country} = req.query;
 		let fromDB = false;
 		let data: any = {};
+		const date: string = moment().format(DATE_FORMAT);
 		if (!(city && country)) {
 			city = "Hamburg";
 			country = "de";
 		}
 		mongoService.getCityByNameAndCountry(city, country)
 			.then((result: CityIdT) => {
-				if (result) {
-					console.log("Getting Forecast from the Database");
+				if (result && moment(result.forecastTime, DATE_FORMAT).isSame(moment().hour(0).minute(0).second(0).millisecond(0))) {
+					console.debug("Getting Forecast from the Database");
 					fromDB = true;
 					return mongoService.getForecastById(result.id);
 				} else {
-					console.log("Requesting Forecast from the API");
+					console.debug("Requesting Forecast from the API");
 					return getForecastCall(city, country);
 				}
 			}).then((d: any) => {
 			if (!d) {
-				console.log("Tried getting from database but there was nothing there");
+				console.debug("Tried getting from database but there was nothing there");
 				return getForecastCall(city, country);
 			}
 			return Promise.resolve(d);
 		}).then((d: any) => {
 			data = d;
 			if (!fromDB) {
-				data.date = moment().format(DATE_FORMAT);
-				console.log("Storing Forecast in Database");
-				return mongoService.storeForecast(data.data.id, data.data);
-			} else if (fromDB && data.data.date && data.data.date.isSameOrAfter(moment())) {
-				console.log("Data is too old, requesting new one");
+				data.date = date;
+				console.debug("Storing Forecast in Database");
+				return mongoService.storeForecast(data.data.city.id, data.data, date);
+			} else if (fromDB && data.data.date && data.data.date.isAfter(moment().hour(0).minute(0).second(0).millisecond(0))) {
+				console.debug("Data is too old, requesting new");
 				return getCurrentWeatherCall(city, country);
 			}
 			return Promise.resolve();
@@ -115,13 +119,13 @@ export const WeatherHandler = (mongoService: MongoServiceT): WeatherHandlerT => 
 			if (d && d.data) {
 				data = d;
 				data.date = moment().format(DATE_FORMAT);
-				console.log("Storing Current Weather in Database");
-				return mongoService.storeForecast(data.data.city.id, data.data);
+				console.debug("Storing Forecast Weather in Database");
+				return mongoService.storeForecast(data.data.city.id, data.data, date);
 			}
 			return Promise.resolve();
 		}).then(() => {
 			if (!fromDB) {
-				return mongoService.storeCityId(data.data.city.id, data.data.name, country);
+				return mongoService.storeCityId(data.data.city.id, data.data.city.name, country);
 			}
 		}).then(() => {
 			const ret = [];
@@ -140,6 +144,7 @@ export const WeatherHandler = (mongoService: MongoServiceT): WeatherHandlerT => 
 	};
 
 	const getCurrentWeatherCall = (city: string, country: string) => {
+		console.debug("Calling API for current Weather");
 		return axios.get(OPEN_WEATHERMAP_API_PATH + OPEN_WEATHER_MAP_CURRENT_PATH, {
 			params: {
 				q: `${city},${country}`,
@@ -152,6 +157,7 @@ export const WeatherHandler = (mongoService: MongoServiceT): WeatherHandlerT => 
 	};
 
 	const getForecastCall = (city: string, country: string) => {
+		console.debug("Calling API for Forecast");
 		return axios.get(OPEN_WEATHERMAP_API_PATH + OPEN_WEATHER_MAP_FORECAST_PATH, {
 			params: {
 				q: `${city},${country}`,
