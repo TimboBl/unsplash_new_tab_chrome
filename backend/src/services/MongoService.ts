@@ -9,12 +9,18 @@ export const MongoService = (() => {
 		return CityId.updateOne({name, country}, {id, name, country}, {upsert: true}).exec();
 	};
 
-	const storeCurrentWeather = (id: string, data: any) => {
-		return CurrentWeather.updateOne({id}, {id, data}, {upsert: true}).exec();
+	const storeCurrentWeather = (id: string, data: any, currentWeatherTime: string) => {
+		return CurrentWeather.updateOne({id}, {id, data}, {upsert: true}).exec()
+			.then(() => {
+				return CityId.updateOne({id}, {"$set": {currentWeatherTime}}).exec();
+			});
 	};
 
-	const storeForecast = (id: string, data: any) => {
-		return ForecastWeather.updateOne({id}, {id, data}, {upsert: true}).exec();
+	const storeForecast = (id: string, data: any, forecastTime: string) => {
+		return ForecastWeather.updateOne({id}, {id, data}, {upsert: true}).exec()
+		.then(() => {
+			return CityId.updateOne({id}, {"$set": {forecastTime}}).exec();
+		});
 	};
 
 	const storeImageData = (id: string, data: any) => {
@@ -38,7 +44,7 @@ export const MongoService = (() => {
 	};
 
 	const getRandomImage = () => {
-		return UnsplashImage.count({}).exec().then((count) => {
+		return UnsplashImage.countDocuments({}).exec().then((count) => {
 			const r = Math.floor(Math.random() * count);
 			return UnsplashImage.find({}).limit(1).skip(r).exec();
 		});

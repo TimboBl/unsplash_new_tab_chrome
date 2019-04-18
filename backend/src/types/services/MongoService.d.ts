@@ -1,6 +1,6 @@
 export interface MongoServiceT {
-	storeCurrentWeather(id: string, data: any): Promise<any>,
-	storeForecast(id: string, data: any): Promise<any>,
+	storeCurrentWeather(id: string, data: any, currentWeatherTime: string): Promise<any>,
+	storeForecast(id: string, data: any, forecastTime: string): Promise<any>,
 	storeImageData(id: string, data: any): Promise<any>,
 	getCurrentWeatherById(id: string): Promise<any>,
 	getForecastById(id: string): Promise<any>,
