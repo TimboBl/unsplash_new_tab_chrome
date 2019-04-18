@@ -5,6 +5,15 @@ class Weather {
 			forecast: "",
 			image: "",
 		};
+		this.labels = {
+			Clear: "images/98px/sun.png",
+			Clouds: "images/98px/cloud.png",
+			Thunderstorm: "images/98px/thunder.png",
+			Drizzle: "images/98px/rain.png",
+			Rain: "images/98px/rain.png",
+			Snow: "images/98px/snow.png",
+			Overcast: "images/98px/overcast.png"
+		};
 		this.getCurrentWeather();
 		this.getForecast();
 		this.currentWeatherNode = document.getElementById("current");
@@ -43,10 +52,12 @@ class Weather {
 		const condition = this.currentWeatherNode.querySelector(".condition");
 		const temp = this.currentWeatherNode.querySelector(".temperature");
 		const day = this.currentWeatherNode.querySelector(".weekday");
+		const image = document.getElementById("current-image");
 
 		condition.innerHTML = this.weather.current.condition;
 		temp.innerHTML = this.weather.current.temp + '\u00B0';
 		day.innerHTML = moment().format("dd");
+		image.src = this.labels[this.weather.current.condition] || this.labels.Overcast;
 	}
 
 	setForecast() {
@@ -56,15 +67,16 @@ class Weather {
 			const condition = this.forecastNodes[i].querySelector(".condition");
 			const temp = this.forecastNodes[i].querySelector(".temperature");
 			const day = this.forecastNodes[i].querySelector(".weekday");
+			const image = document.getElementById(i + "-image");
 
 			condition.innerHTML = this.weather.forecast[i].condition;
 			temp.innerHTML = this.weather.forecast[i].temperature + '\u00B0';
 			day.innerHTML = cur.format("dd");
+			image.src = this.labels[this.weather.forecast[i].condition] || this.labels.Overcast;
 		}
 	}
 
 	setImage() {
-		//TODO see if the background div can have opacity now, otherwise the image has to sit in it
 		this.getImage().then((url) => {
 			this.weather.image = url;
 			const bg = document.getElementById("background");
