@@ -12,6 +12,6 @@
     ],
     "persistent": true
   },
-  "permissions": ["webNavigation", "tabs"],
+  "permissions": ["webNavigation", "tabs", "storage"],
   "author": "Timbo Blaesche"
 }
