@@ -10,8 +10,8 @@
 	<script src="scripts/constants.js"></script>
 	<script src="scripts/images.js"></script>
 	<script src="scripts/weather.js"></script>
-	<link href="https://fonts.googleapis.com/css?family=Work+Sans:200,300,600" rel="stylesheet">
 	<script src="scripts/axios.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Work+Sans:200,300,600" rel="stylesheet">
 </head>
 <body>
 <div id="background">
@@ -88,6 +88,27 @@
 				<div class="temperature">
 					&#9883;
 				</div>
+			</div>
+		</div>
+		<div id="settings-icon">
+			<img src="images/98px/settings.png" alt="settings">
+		</div>
+		<div class="settings" id="settings">
+			<div class="modal-content">
+				<div class="label-row">
+					<label for="city">
+						City
+						<input id="city" type="text">
+					</label><br>
+				</div>
+				<div class="label-row">
+					<label for="country">
+						Country
+						<input id="country" type="text">
+					</label>
+				</div>
+				<br>
+				<button>Save</button>
 			</div>
 		</div>
 	</div>
