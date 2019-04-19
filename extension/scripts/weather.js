@@ -4,6 +4,8 @@ class Weather {
 			current: "",
 			forecast: "",
 			image: "",
+			city: "",
+			country: "",
 		};
 		this.labels = {
 			Clear: "images/98px/sun.png",
@@ -22,24 +24,45 @@ class Weather {
 		this.thirdWeatherNode = document.getElementById("2");
 		this.fourthWeatherNode = document.getElementById("3");
 		this.forecastNodes = [this.firstWeatherNode, this.secondWeatherNode, this.thirdWeatherNode, this.fourthWeatherNode];
+
+		port = chrome.runtime.connect({name: "settings"});
+		port.postMessage({message: "settings"});
+		port.onMessage.addListener((response) => {
+			if (response.message === "settings") {
+				this.weather.city = response.data.city;
+				this.weather.country = response.data.country;
+				this.getCurrentWeather();
+				this.getForecast();
+			}
+		});
 	}
 
 	getCurrentWeather() {
-		axios.get(constants.API_BASE_PATH + constants.WEATHER_ROUTE).then(result => {
+		axios.get(constants.API_BASE_PATH + constants.WEATHER_ROUTE, {
+			params: {
+				city: this.weather.city,
+				country: this.weather.country,
+			}
+		}).then(result => {
 			this.weather.current = result.data.data;
-		})
+		});
 	}
 
 	getForecast() {
-		axios.get(constants.API_BASE_PATH + constants.FORECAST_ROUTE).then(result => {
+		axios.get(constants.API_BASE_PATH + constants.FORECAST_ROUTE,{
+			params: {
+				city: this.weather.city,
+				country: this.weather.country,
+			}
+		}).then(result => {
 			this.weather.forecast = result.data.data;
-		})
+		});
 	}
 
 	getImage() {
 		return axios.get(constants.API_BASE_PATH + constants.IMAGE_ROUTE).then(result => {
 			return result.data.data;
-		})
+		});
 	}
 
 	setWeatherInfo() {
@@ -80,7 +103,7 @@ class Weather {
 		this.getImage().then((url) => {
 			this.weather.image = url;
 			const bg = document.getElementById("background");
-			bg.style.backgroundImage =  `url('${this.weather.image}')`;
+			bg.style.backgroundImage = `url('${this.weather.image}')`;
 		});
 	}
 }
