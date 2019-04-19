@@ -24,12 +24,14 @@ export const WeatherHandler = (mongoService: MongoServiceT): WeatherHandlerT => 
 		}
 		mongoService.getCityByNameAndCountry(city, country)
 			.then((result: CityIdT) => {
-				const weatherTime = moment(result.currentWeatherTime, CURRENT_WEATHER_DATE_FORMT);
-				const oneHourBefore = moment().subtract(1, "hours");
-				if (result && weatherTime.isBetween(oneHourBefore, moment())) {
-					console.debug("Getting Current Weather from Database");
-					fromDB = true;
-					return mongoService.getCurrentWeatherById(result.id);
+				if (result) {
+					const weatherTime = moment(result.currentWeatherTime, CURRENT_WEATHER_DATE_FORMT);
+					const oneHourBefore = moment().subtract(1, "hours");
+					if (weatherTime.isBetween(oneHourBefore, moment())) {
+						console.debug("Getting Current Weather from Database");
+						fromDB = true;
+						return mongoService.getCurrentWeatherById(result.id);
+					}
 				} else {
 					console.debug("Requesting from API");
 					return getCurrentWeatherCall(city, country);
