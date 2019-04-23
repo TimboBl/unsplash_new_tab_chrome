@@ -4,13 +4,18 @@ import { UnsplashService } from "./services/UnsplashService";
 import { MONGO_CONNECTION_STRING } from "./config/constants";
 import { PORT } from "./config/config";
 import { UnsplashServiceT } from "./types/services/UnsplashService";
+import { MongoServiceT } from "./types/services/MongoService";
 
 let unsplashService: UnsplashServiceT = undefined;
-MongoService.init(MONGO_CONNECTION_STRING).then(mongoService => {
+let mongoService: MongoServiceT = undefined;
+MongoService.init(MONGO_CONNECTION_STRING).then(ms => {
+	mongoService = ms;
 	unsplashService = UnsplashService(mongoService);
-	return App(mongoService).listen()
-}).then(() => {
+	console.info("Unsplash Service initiated");
 	return unsplashService.getRandomImage();
+}).then(() => {
+	console.info("App is starting");
+	return App(mongoService).listen()
 }).then(() => {
 	setInterval(unsplashService.getRandomImage, 1000 * 60 * 60 * 2);
 	console.log(`Server is listening on Port ${PORT}`);
