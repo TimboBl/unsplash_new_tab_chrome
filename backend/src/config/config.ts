@@ -1,4 +1,4 @@
-export const PORT = 3000;
+export const PORT = 3000 || process.env.UNSPLASH_EXTENSION_PORT;
 
 export const DATE_FORMAT = "DD.MM.YYYY";
 
