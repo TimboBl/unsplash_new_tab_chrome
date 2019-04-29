@@ -28,7 +28,7 @@ window.onload = () => {
 	setTimeout(() => weather.setWeatherInfo(), 500);
 	const timeInterval = setInterval(() => time.showTime(), 1000);
 	const dateInterval = setInterval(() => date.showDate(), 1000 * 60);
-	port = chrome.runtime.connect({name: "settings"});
+	port = chrome.runtime.connect(constants.EXTENSION_ID, {name: "settings"});
 	port.onMessage.addListener((response) => {
 		if (response.message === "settings") {
 			city.value = response.data.city;

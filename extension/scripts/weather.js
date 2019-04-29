@@ -25,7 +25,7 @@ class Weather {
 		this.fourthWeatherNode = document.getElementById("3");
 		this.forecastNodes = [this.firstWeatherNode, this.secondWeatherNode, this.thirdWeatherNode, this.fourthWeatherNode];
 
-		port = chrome.runtime.connect({name: "settings"});
+		port = chrome.runtime.connect(constants.EXTENSION_ID, {name: "settings"});
 		port.postMessage({message: "settings"});
 		port.onMessage.addListener((response) => {
 			if (response.message === "settings") {

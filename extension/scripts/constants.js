@@ -3,4 +3,5 @@ constants = {
   WEATHER_ROUTE: "/weather",
   FORECAST_ROUTE: "/forecast",
   IMAGE_ROUTE: "/image",
+  EXTENSION_ID: "kmmffdeggnejajfmmeohnfkgmmgebiac",
 };
