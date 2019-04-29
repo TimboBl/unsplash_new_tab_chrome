@@ -4,6 +4,8 @@ class Weather {
 			current: "",
 			forecast: "",
 			image: "",
+			twitter: "",
+			instagram: "",
 			city: "",
 			country: "",
 		};
@@ -100,10 +102,16 @@ class Weather {
 	}
 
 	setImage() {
-		this.getImage().then((url) => {
-			this.weather.image = url;
+		this.getImage().then((data) => {
+			const twitter = document.getElementById("twitter-anchor");
+			const instagram = document.getElementById("instagram-anchor");
+			this.weather.image = data.image;
+			this.weather.twitter = data.twitter;
+			this.weather.instagram = data.instagram;
 			const bg = document.getElementById("background");
 			bg.style.backgroundImage = `url('${this.weather.image}')`;
+			twitter.href = `https://twitter.com/${this.weather.twitter}`;
+			instagram.href = `https://instagram.com/${this.weather.instagram}`;
 		});
 	}
 }

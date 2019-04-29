@@ -96,6 +96,11 @@ html, body {
 	transform: translateY(1px);
 }
 
+.social-media img {
+	width: 36px;
+	height: 36px;
+}
+
 #clock {
 	margin-top: 30px;
 	display: flex;
@@ -152,5 +157,19 @@ html, body {
 	cursor: pointer;
 	position: absolute;
 	right: 8px;
+	bottom: 8px;
+}
+
+#instagram {
+	cursor: pointer;
+	position: absolute;
+	right: 47px;
+	bottom: 8px;
+}
+
+#twitter {
+	cursor: pointer;
+	position: absolute;
+	right: 87px;
 	bottom: 8px;
 }
