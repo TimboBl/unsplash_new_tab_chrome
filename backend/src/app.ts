@@ -7,6 +7,8 @@ import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import { PORT } from "./config/config";
 import { MongoServiceT } from "./types/services/MongoService";
+const graphqlHTTP = require("express-graphql");
+import schema from "./graphql/";
 
 export const App = (mongoService: MongoServiceT) => {
 	const app = express();
@@ -16,6 +18,11 @@ export const App = (mongoService: MongoServiceT) => {
 	app.use(cors());
 	app.use(bodyParser.json());
 	app.use(express.urlencoded({extended: true}));
+
+	app.use("/graphql", graphqlHTTP({
+		schema,
+		graphiql: true,
+	}));
 
 	app.use(WeatherRouter.getRouter(weatherHandler));
 	app.use(UnsplashRouter.getRouter(unsplashHandler));
