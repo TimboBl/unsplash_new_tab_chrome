@@ -18,7 +18,8 @@ MongoService.init(MONGO_CONNECTION_STRING).then(ms => {
 	return App(mongoService).listen()
 }).then(() => {
 	setInterval(unsplashService.getRandomImage, 1000 * 60 * 60 * 2);
-	console.log(`Server is listening on Port ${PORT}`);
+	console.log(`Server is running and listening on Port ${PORT}`);
+	return Promise.resolve();
 }).catch((err: Error) => {
 	console.error("There was an error during startup!", err);
 });

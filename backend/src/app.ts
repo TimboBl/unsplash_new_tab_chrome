@@ -24,6 +24,7 @@ export const App = (mongoService: MongoServiceT) => {
 		return new Promise(((resolve, reject) => {
 			app.listen(PORT, (err: Error) => {
 				if (err) return reject(err);
+				console.info("App is listening");
 				return resolve();
 			})
 		}))
