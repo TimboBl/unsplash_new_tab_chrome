@@ -18,7 +18,6 @@ chrome.runtime.onConnect.addListener(port => {
 	port.onMessage.addListener((message) => {
 		if (message.message === "settings") {
 			chrome.storage.local.get(["unsplash_settings"], async (result) => {
-				console.log(result);
 				port.postMessage({message: "settings", data: result.unsplash_settings});
 				return Promise.resolve();
 			});

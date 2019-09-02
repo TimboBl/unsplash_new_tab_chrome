@@ -1,5 +1,4 @@
 const saveSettings = (city, country) => {
-	console.log(city, country);
 	port.postMessage({
 		message: "save", settings: {
 			city: city,
