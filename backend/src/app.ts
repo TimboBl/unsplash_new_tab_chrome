@@ -13,7 +13,9 @@ export const App = (mongoService: MongoServiceT) => {
 	const weatherHandler = WeatherHandler(mongoService);
 	const unsplashHandler = UnsplashHandler(mongoService);
 
-	app.use(cors());
+	app.use(cors({
+		origin: ["chrome-extension://kmmffdeggnejajfmmeohnfkgmmgebiac", "http://localhost:63342"]
+	}));
 	app.use(bodyParser.json());
 	app.use(express.urlencoded({extended: true}));
 
